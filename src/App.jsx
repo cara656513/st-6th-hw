@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // TODO: useFetch 라는 커스텀훅을 사용해서 리팩터링 해보세요
-
-const App = () => {
+function useFetch() {
   const [title, setTitle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +10,7 @@ const App = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://jsonplaceholder.typicode.com/todos/1",
+          "https://jsonplaceholder.typicode.com/todos/1"
         );
         console.log("response:", response);
         if (!response.ok) {
@@ -28,6 +27,12 @@ const App = () => {
 
     fetchData();
   }, []);
+
+  return { title, loading, error };
+}
+
+const App = () => {
+  const { title, loading, error } = useFetch();
 
   if (loading) return <h1>Loading...</h1>;
   if (error) return <h1>Error: {error.message}</h1>;
